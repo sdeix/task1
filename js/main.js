@@ -25,6 +25,7 @@ Vue.component('product', {
            <img :src="image" :alt="altText"/>
        </div>
 
+
        <div class="product-info">
            <h1>{{ title }}</h1>
            <p v-if="inStock">In stock</p>
