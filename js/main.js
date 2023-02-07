@@ -33,14 +33,22 @@ Vue.component('product-review', {
  </p>
 
  <p>
-   <label for="rating">Rating:</label>
-   <select id="rating" v-model.number="rating">
-     <option>5</option>
-     <option>4</option>
-     <option>3</option>
-     <option>2</option>
-     <option>1</option>
-   </select>
+
+   <p>Rating: </p>
+   <input type="radio"  value="1" v-model="rating">
+    <label>1</label>
+
+    <input type="radio"  v-model="rating" value="2">
+    <label>2</label>
+
+        <input type="radio"  v-model="rating" value="3">
+    <label>3</label>
+            <input type="radio"  v-model="rating" value="4">
+    <label>4</label>
+            <input type="radio" id="rate1" v-model="rating" value="5">
+    <label for="rate1">5</label>
+
+
  </p>
 
  <p>
@@ -105,9 +113,10 @@ mounted() {
                    class="color-box"
                    v-for="(variant, index) in variants"
                    :key="variant.variantId"
-                   :style="{ backgroundColor:variant.variantColor }"
+                   :style="{ backgroundColor:variant.variantColor}"
                    @mouseover="updateProduct(index)"
-           ></div>
+
+           ><p class="qww" @mouseover="updateProduct(index)"> {{variant.price}} Рублей</p></div>
 
            <button
                    v-on:click="addToCart"
@@ -130,16 +139,18 @@ mounted() {
            details: ['80% cotton', '20% polyester', 'Gender-neutral'],
            variants: [
                {
+                   price: 100,
                    variantId: 2234,
                    variantColor: 'green',
                    variantImage: "./assets/vmSocks-green-onWhite.jpg",
                    variantQuantity: 10
                },
                {
+                   price: 90,
                    variantId: 2235,
                    variantColor: 'blue',
                    variantImage: "./assets/vmSocks-blue-onWhite.jpg",
-                   variantQuantity: 0
+                   variantQuantity: 1
                }
            ],
            reviews: []
@@ -147,11 +158,10 @@ mounted() {
    },
    methods: {
        addToCart() {
-           this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId);
+           this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId, this.variants[this.selectedVariant].price);
        },
        updateProduct(index) {
            this.selectedVariant = index;
-           console.log(index);
        },
 
    },
@@ -234,11 +244,15 @@ let app = new Vue({
    el: '#app',
    data: {
        premium: true,
-       cart: []
+       cart: [],
+       sum:0
    },
    methods: {
-       updateCart(id) {
+       updateCart(id, price) {
            this.cart.push(id);
-       }
+           this.sum+=price;
+       },
+
+
    }
 })
